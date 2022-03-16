@@ -1,4 +1,7 @@
-import PicturesApiService from './fetchAPI';
+import PicturesApiService from './fetchAPI.js';
+import {appendPicturesMarkup, clearPage } from './picturesMarkup.js';
+import SimpleLightbox from "simplelightbox";
+import Notiflix from 'notiflix';
 
 const refs = {
     form: document.querySelector(".search-form"),
@@ -13,17 +16,28 @@ const picturesApiService = new PicturesApiService();
 refs.form.addEventListener('submit', onSearch);
 refs.loadMore.addEventListener('click', onLoadMore);
 
-
+refs.loadMore.hidden = true;
 
 function onSearch(e){
     e.preventDefault();
+    refs.loadMore.hidden = false;
     picturesApiService.query = e.currentTarget.elements.query.value;
     picturesApiService.resetPage();
-    picturesApiService.fetchPictures().then( pictures => console.log(pictures));
+    refs.inputEl.value = '';
+    picturesApiService.fetchPictures().then(hits => {
+        if(hits.length == 0) {
+            Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+        }
+        else {
+            clearPage();
+            appendPicturesMarkup(hits);
+        }
+    });
 }
 
 function onLoadMore(){
-    picturesApiService.fetchPictures().then( pictures => console.log(pictures));
+    picturesApiService.fetchPictures().then(appendPicturesMarkup);
 }
 
 
+export { refs };

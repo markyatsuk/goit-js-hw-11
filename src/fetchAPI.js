@@ -15,13 +15,15 @@ export default class PicturesApiService {
             fields: "webformatURL,largeImageURL,tags,likes,views,comments,downloads",
         };
 
-
-        return fetch(`${this.BASE_URL}?key=${this.KEY}&${this.searchQuery}&${this.image_type}&${this.orientation}&${this.safesearch}&page=${this.page}&${this.per_page}`, options)
-        .then( r => r.json())
-        .then( data => {
-            this.page += 1;
-            return data.pictures;
-        })
+        return fetch(`${this.BASE_URL}${this.KEY}&q=${this.searchQuery}&${this.image_type}&${this.orientation}&${this.safesearch}&page=${this.page}&${this.per_page}`, options)
+        .then( response => response.json())
+        .then( ({ hits }) => {
+            this.incrementPage();
+            return hits;
+        });
+    }
+    incrementPage(){
+        this.page += 1;
     }
     resetPage(){
         this.page = 1;
