@@ -9,6 +9,7 @@ const refs = {
     buttonEl: document.querySelector("button[type='submit']"),
     gallery: document.querySelector(".gallery"),
     loadMore: document.querySelector(".load-more"),
+    titleEl: document.querySelector(".greetings"),
 }
 
 const picturesApiService = new PicturesApiService();
@@ -21,6 +22,7 @@ refs.loadMore.hidden = true;
 function onSearch(e){
     e.preventDefault();
     refs.loadMore.hidden = false;
+    refs.titleEl.classList.add("is-hidden");
     picturesApiService.query = e.currentTarget.elements.query.value;
     picturesApiService.resetPage();
     refs.inputEl.value = '';
