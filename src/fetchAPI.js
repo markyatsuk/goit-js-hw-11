@@ -1,3 +1,4 @@
+const axios = require('axios').default;
 export default class PicturesApiService {
     constructor(){
         this.BASE_URL = "https://pixabay.com/api/";
@@ -15,11 +16,14 @@ export default class PicturesApiService {
             fields: "webformatURL,largeImageURL,tags,likes,views,comments,downloads",
         };
 
-        return fetch(`${this.BASE_URL}${this.KEY}&q=${this.searchQuery}&${this.image_type}&${this.orientation}&${this.safesearch}&page=${this.page}&${this.per_page}`, options)
-        .then( response => response.json())
-        .then( ({ hits }) => {
+        return axios.get(`${this.BASE_URL}${this.KEY}&q=${this.searchQuery}&${this.image_type}&${this.orientation}&${this.safesearch}&page=${this.page}&${this.per_page}`, options)
+        .then((response) => {
+            console.log(response)
             this.incrementPage();
-            return hits;
+            return response;
+        })
+        .catch(error => {
+            console.error(error);
         });
     }
     incrementPage(){

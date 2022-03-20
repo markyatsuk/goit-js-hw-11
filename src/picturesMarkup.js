@@ -1,3 +1,4 @@
+
 import { refs } from './index.js';
 function appendPicturesMarkup(hits){
     refs.gallery.insertAdjacentHTML('beforeend', 
