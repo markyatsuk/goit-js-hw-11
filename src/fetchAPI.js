@@ -11,20 +11,14 @@ export default class PicturesApiService {
         this.safesearch = "safesearch=true";
     }
     
-    fetchPictures(){
+    async fetchPictures(){
         const options = {
             fields: "webformatURL,largeImageURL,tags,likes,views,comments,downloads",
-        };
-
-        return axios.get(`${this.BASE_URL}${this.KEY}&q=${this.searchQuery}&${this.image_type}&${this.orientation}&${this.safesearch}&page=${this.page}&${this.per_page}`, options)
-        .then((response) => {
-            console.log(response)
-            this.incrementPage();
-            return response;
-        })
-        .catch(error => {
-            console.error(error);
-        });
+        };  
+        const fetchResponse = await axios.get(`${this.BASE_URL}${this.KEY}&q=${this.searchQuery}&${this.image_type}&${this.orientation}&${this.safesearch}&page=${this.page}&${this.per_page}`, options);
+        console.log(fetchResponse)
+        this.incrementPage();
+        return fetchResponse;
     }
     incrementPage(){
         this.page += 1;
@@ -33,7 +27,7 @@ export default class PicturesApiService {
         this.page = 1;
     }
     get query(){
-        return this.searchQuery;
+        return this.searchQuery;    
     }
     set query(newQuery){
         this.searchQuery = newQuery;

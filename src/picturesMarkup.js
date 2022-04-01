@@ -1,10 +1,12 @@
-
+import lightbox from './simpleLightbox.js';
 import { refs } from './index.js';
 function appendPicturesMarkup(hits){
     refs.gallery.insertAdjacentHTML('beforeend', 
     hits.map( ({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
         return `<div class="photo-card">
-        <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+        <div class="photo-container">
+          <img src="${webformatURL}" alt="${tags}" loading="lazy" class="gallery__image" />
+        </div>
         <div class="info">
           <p class="info-item">
             <b>Likes: ${likes}</b>
@@ -27,4 +29,4 @@ function clearPage(){
     refs.gallery.innerHTML = '';
 }
 
-export {appendPicturesMarkup, clearPage };
+export {appendPicturesMarkup, clearPage};
