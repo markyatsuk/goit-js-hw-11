@@ -11,7 +11,7 @@ header{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
+    width: 100%;
 }
 
 .is-hidden{
@@ -56,7 +56,6 @@ header{
 
 .photo-card{
     flex-basis: calc((100% - 60px) / 4);
-    /* margin-right: 20px; */
     cursor: pointer;
     border: 1px solid rebeccapurple;
     border-radius: 5px;
@@ -85,11 +84,6 @@ header{
     flex-grow: 1;
 }
 
-/* .gallery__image{
-    height: 100%;
-    width: 100%;
-    display: block;
-} */
 
 .info-item{
     height: 100%;

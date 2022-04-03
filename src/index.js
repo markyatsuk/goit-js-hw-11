@@ -27,9 +27,8 @@ refs.loadMore.hidden = true;
 
 async function onSearch(e){
     e.preventDefault();
-    refs.titleEl.classList.add("is-hidden");
     picturesApiService.query = e.currentTarget.elements.query.value;
-    picturesApiService.resetPage();
+    picturesApiService.resetPage(); 
     refs.inputEl.value = '';
     try{
         const dataPictures = await picturesApiService.fetchPictures(); 
@@ -37,11 +36,12 @@ async function onSearch(e){
             if(dataInf.length == 0) {
                 Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
             }
-            else {
+            else{
                 counter = 1;
+                refs.titleEl.classList.add("is-hidden");
                 refs.loadMore.hidden = false;
                 refs.loadMore.classList.add('load-more-styles');
-                Notiflix.Notify.info(`Hooray! We found ${dataPictures.data.totalHits} images.`)
+                Notiflix.Notify.info(`Hooray! We found ${dataPictures.data.totalHits} images.`);
                 clearPage();
                 appendPicturesMarkup(dataInf);
                 if(counter*40 >= dataPictures.data.totalHits){
