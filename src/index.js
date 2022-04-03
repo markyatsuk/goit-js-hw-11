@@ -19,7 +19,6 @@ const refs = {
 let counter = 1;
 const picturesApiService = new PicturesApiService();
 
-// refs.gallery.addEventListener('click', onGalleryClick);
 refs.form.addEventListener('submit', onSearch);
 refs.loadMore.addEventListener('click', onLoadMore);
 
@@ -28,25 +27,29 @@ refs.loadMore.hidden = true;
 async function onSearch(e){
     e.preventDefault();
     picturesApiService.query = e.currentTarget.elements.query.value;
+    if(picturesApiService.query.trim() === ''){ //не відправляємо запит по порожньому інпуту, або інпуту заповненому пробілами
+        Notiflix.Notify.failure("Please enter the request.");
+        return;
+    }
     picturesApiService.resetPage(); 
     refs.inputEl.value = '';
     try{
         const dataPictures = await picturesApiService.fetchPictures(); 
         const dataInf = dataPictures.data.hits;
-            if(dataInf.length == 0) {
+            if(dataPictures.data.totalHits == 0) {
                 Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
             }
+             
             else{
+                if(dataPictures.data.totalHits > 40){
+                    refs.loadMore.hidden = false; //показуємо кнопку лише запит складається більше ніж з 40 елементів
+                    refs.loadMore.classList.add('load-more-styles');
+                }
                 counter = 1;
                 refs.titleEl.classList.add("is-hidden");
-                refs.loadMore.hidden = false;
-                refs.loadMore.classList.add('load-more-styles');
                 Notiflix.Notify.info(`Hooray! We found ${dataPictures.data.totalHits} images.`);
                 clearPage();
                 appendPicturesMarkup(dataInf);
-                if(counter*40 >= dataPictures.data.totalHits){
-                    refs.loadMore.hidden = true;
-                }
             }
     }
     catch(error){
@@ -56,15 +59,25 @@ async function onSearch(e){
 };
 
 async function onLoadMore(){
-    counter++;
+    
         try{
             const dataPictures = await picturesApiService.fetchPictures(); 
             const dataInf = dataPictures.data.hits;
             if(counter*40 >= dataPictures.data.totalHits){
                 refs.loadMore.hidden = true;
                 Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
-            }else{
+                refs.loadMore.classList.remove('load-more-styles');
+
+            }
+            else if(dataInf.length < 40){//приховуємо кнопку дозагрузки, якщо зображень більше немає
                 appendPicturesMarkup(dataInf);
+                counter++;      
+                refs.loadMore.hidden = true;
+                refs.loadMore.classList.remove('load-more-styles'); 
+            }
+            else{ 
+                appendPicturesMarkup(dataInf);
+                counter++; //conter тут тому що, якщо вносити у запит html, то знаходить 56 зображень, але після перших 40, щоб вын давав можливысть догрузити ще 16
             }
         }
         catch(error){

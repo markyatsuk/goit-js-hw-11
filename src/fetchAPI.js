@@ -32,5 +32,6 @@ export default class PicturesApiService {
     set query(newQuery){
         this.searchQuery = newQuery;
     }
+
 }
 
