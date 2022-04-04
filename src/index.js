@@ -33,6 +33,9 @@ async function onSearch(e){
     }
     picturesApiService.resetPage(); 
     refs.inputEl.value = '';
+    refs.loadMore.classList.remove('load-more-styles');
+    refs.loadMore.hidden = true;
+    
     try{
         const dataPictures = await picturesApiService.fetchPictures(); 
         const dataInf = dataPictures.data.hits;

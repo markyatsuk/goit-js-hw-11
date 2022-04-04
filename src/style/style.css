@@ -4,7 +4,6 @@ img{
     display: block;
 }
 
-
 header{
     height: 60px;
     background-color: rgba(120, 71, 255, 0.788);
@@ -14,11 +13,17 @@ header{
     width: 100%;
 }
 
+b{
+    font-weight: 400;
+    font-size: small;
+}
+
 .is-hidden{
     display: none;
 }
 
 .search-form__input{
+    width: 200px;
     padding: 10px 15px;
     border-radius: 5px;
     color: rgb(62, 26, 95);
@@ -27,7 +32,7 @@ header{
     font-size: 18px;
     border: 2px solid black;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
-
+    
 }
 
 .search-form__button{
@@ -48,50 +53,44 @@ header{
 }
 
 .gallery{
-    display: flex;
-    flex-wrap: wrap;
     padding: 5px 15px;
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .photo-card{
-    flex-basis: calc((100% - 60px) / 4);
     cursor: pointer;
     border: 1px solid rebeccapurple;
     border-radius: 5px;
     margin-bottom: 10px;
     overflow: hidden;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
-}
-
-.photo-card:not(:nth-child(4n)){
-    margin-right: 20px;
-}
-
-
-
-.photo-container{
-    width: 100%;
-    height: 220px;
+    max-width: 345px;
 }
 
 .info{
+    width: 100%;
     padding: 0 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgb(185, 166, 240);
-    flex-grow: 1;
 }
-
 
 .info-item{
     height: 100%;
-}
 
+}
 
 .info-item:not(:last-child){
     margin-right: 15px;
+}
+
+.photo-container{
+    width: 100%;
+    height: 220px;
 }
 
 .load-more-styles{
@@ -104,4 +103,39 @@ header{
     color: aliceblue;
     background-color: rgb(185, 166, 240);
     border-radius: 5px;
+}
+
+
+@media screen and (min-width: 768px) {
+    .search-form__input{
+        width: 204px;
+    }
+    .gallery{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: start;
+    }
+    
+    .photo-card:not(:nth-child(4n)){
+        margin-right: 0;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1199px){
+    .photo-card:not(:nth-child(3n)){
+        margin-right: 10px;
+    }
+    .photo-card{
+        flex-basis: calc((100% - 20px) / 3);
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .photo-card:not(:nth-child(4n)){
+        margin-right: 20px;
+    }
+    .photo-card{
+        flex-basis: calc((100% - 60px) / 4);
+    }
 }
